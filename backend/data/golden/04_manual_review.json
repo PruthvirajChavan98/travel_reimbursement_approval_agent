@@ -1,0 +1,7 @@
+{
+  "claim_id": "CLM-2026-0004",
+  "decision": "MANUAL_REVIEW",
+  "approved_amount": 570.0,
+  "rejected_amount": 0.0,
+  "note": "Airfare over $75 is missing a receipt; incomplete -> routed to a human (no auto-decision)."
+}

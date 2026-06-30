@@ -1,0 +1,23 @@
+{
+  "mode": "live",
+  "decision": {
+    "decision": "APPROVE",
+    "claimed_amount": 570.0,
+    "approved_amount": 570.0,
+    "rejected_amount": 0.0,
+    "deductions": [],
+    "missing_documents": [
+      "L1 (airfare): receipt required for $450.0 (>75) [POL-RECEIPT]"
+    ],
+    "policy_references": [
+      "POL-AIRFARE",
+      "POL-APPROVAL",
+      "POL-MEALS",
+      "POL-RECEIPT"
+    ],
+    "confidence": 0.6,
+    "explanation": "Approved by cli on manual review. Routed to manual review: Missing required receipt(s): L1 (airfare): receipt required for $450.0 (>75) [POL-RECEIPT] auto-approve",
+    "manual_review_reasons": []
+  },
+  "interrupt": null
+}

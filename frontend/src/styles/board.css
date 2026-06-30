@@ -1,0 +1,69 @@
+/* TravelDesk signature: departures-board motion, boarding-pass perforation, and the eyebrow voice.
+   Every animation degrades to a static state under prefers-reduced-motion (guard at the bottom). */
+
+@layer components {
+  /* The mono-uppercase label voice used for column heads, section eyebrows, status text. */
+  .eyebrow {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.6875rem; /* 11px */
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  /* Boarding-pass tear line: a dashed rule with two paper-colored "punched" notches. */
+  .perforation {
+    position: relative;
+    border-top: 2px dashed var(--td-line);
+  }
+  .perforation::before,
+  .perforation::after {
+    content: "";
+    position: absolute;
+    top: -11px;
+    width: 20px;
+    height: 20px;
+    border-radius: 9999px;
+    background: var(--td-paper);
+  }
+  .perforation::before { left: -10px; }
+  .perforation::after { right: -10px; }
+}
+
+/* Departures board rows flip down into place like a split-flap display. */
+@keyframes flap-in {
+  0%   { opacity: 0; transform: translateY(-7px) rotateX(-82deg); }
+  60%  { opacity: 1; transform: translateY(0) rotateX(7deg); }
+  100% { opacity: 1; transform: translateY(0) rotateX(0deg); }
+}
+.flap-in {
+  transform-origin: top center;
+  backface-visibility: hidden;
+  animation: flap-in 0.42s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* The decision stamp presses down once on mount. */
+@keyframes stamp-in {
+  0%   { opacity: 0; transform: scale(1.55) rotate(-7deg); }
+  55%  { opacity: 1; transform: scale(0.93) rotate(-7deg); }
+  100% { opacity: 0.95; transform: scale(1) rotate(-7deg); }
+}
+.stamp-in { animation: stamp-in 0.5s cubic-bezier(0.2, 0.8, 0.25, 1) both; }
+
+/* Gentle amber breathing for the claim genuinely waiting on a human ("AT GATE"). */
+@keyframes board-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+.board-pulse { animation: board-pulse 1.8s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .flap-in,
+  .stamp-in,
+  .board-pulse {
+    animation: none !important;
+  }
+  .flap-in { opacity: 1; transform: none; }
+  .stamp-in { opacity: 0.95; transform: rotate(-7deg); }
+}

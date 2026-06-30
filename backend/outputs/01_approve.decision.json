@@ -1,0 +1,86 @@
+{
+  "decision": {
+    "decision": "APPROVE",
+    "claimed_amount": 420.0,
+    "approved_amount": 420.0,
+    "rejected_amount": 0.0,
+    "deductions": [],
+    "missing_documents": [],
+    "policy_references": [
+      "POL-APPROVAL",
+      "POL-GROUND",
+      "POL-LODGING",
+      "POL-MEALS"
+    ],
+    "confidence": 1.0,
+    "explanation": "All line items comply with policy. Approved in full: $420.00.",
+    "manual_review_reasons": []
+  },
+  "trace": {
+    "mode": "mock",
+    "steps": [
+      {
+        "kind": "tool_call",
+        "summary": "Gathered deterministic facts (policy lookup, caps, receipts, duplicates, approval tier)",
+        "detail": {
+          "policy_references": [
+            "POL-APPROVAL",
+            "POL-GROUND",
+            "POL-LODGING",
+            "POL-MEALS"
+          ],
+          "line_checks": [
+            {
+              "line_item_id": "L1",
+              "category": "lodging",
+              "claimed": 200.0,
+              "cap": 220.0,
+              "allowed": 200.0,
+              "deduction": 0.0,
+              "rule_id": "POL-LODGING",
+              "note": "110/night x 2.0 night(s)"
+            },
+            {
+              "line_item_id": "L2",
+              "category": "meals",
+              "claimed": 180.0,
+              "cap": 204.0,
+              "allowed": 180.0,
+              "deduction": 0.0,
+              "rule_id": "POL-MEALS",
+              "note": "68/day x 3.0 day(s)"
+            },
+            {
+              "line_item_id": "L3",
+              "category": "ground_transport",
+              "claimed": 40.0,
+              "cap": 200.0,
+              "allowed": 40.0,
+              "deduction": 0.0,
+              "rule_id": "POL-GROUND",
+              "note": "flat category cap"
+            }
+          ],
+          "missing_documents": [],
+          "duplicate_flags": [],
+          "approval": {
+            "required_role": "manager",
+            "auto_approve": true
+          },
+          "claimed_total": 420.0,
+          "allowed_total": 420.0
+        }
+      },
+      {
+        "kind": "guardrail",
+        "summary": "Deterministic decision: APPROVE",
+        "detail": {
+          "approved_amount": 420.0,
+          "rejected_amount": 0.0,
+          "confidence": 1.0,
+          "manual_review_reasons": []
+        }
+      }
+    ]
+  }
+}

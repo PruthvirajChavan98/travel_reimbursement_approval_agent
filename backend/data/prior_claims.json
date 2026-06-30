@@ -1,0 +1,20 @@
+[
+  {
+    "claim_id": "CLM-2026-0000",
+    "employee_id": "E-1001",
+    "category": "lodging",
+    "description": "2 nights at Hilton Garden Inn",
+    "amount": 220.0,
+    "date": "2026-05-10",
+    "vendor": "Hilton Garden Inn"
+  },
+  {
+    "claim_id": "CLM-2026-0000",
+    "employee_id": "E-1001",
+    "category": "airfare",
+    "description": "Round-trip flight",
+    "amount": 480.0,
+    "date": "2026-05-09",
+    "vendor": "Delta Air Lines"
+  }
+]

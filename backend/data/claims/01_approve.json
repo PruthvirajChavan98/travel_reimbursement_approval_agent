@@ -1,0 +1,42 @@
+{
+  "claim_id": "CLM-2026-0001",
+  "employee_id": "E-3001",
+  "employee_role": "employee",
+  "trip_purpose": "Client kickoff meeting and on-site requirements workshop",
+  "destination": "Austin",
+  "start_date": "2026-06-10",
+  "end_date": "2026-06-12",
+  "currency": "USD",
+  "line_items": [
+    {
+      "id": "L1",
+      "category": "lodging",
+      "description": "2 nights at Courtyard Marriott Austin",
+      "amount": 200.0,
+      "date": "2026-06-10",
+      "vendor": "Courtyard Marriott",
+      "location": "Austin",
+      "quantity": 2,
+      "has_receipt": true
+    },
+    {
+      "id": "L2",
+      "category": "meals",
+      "description": "Meals for 3 travel days",
+      "amount": 180.0,
+      "date": "2026-06-10",
+      "vendor": "Various",
+      "quantity": 3,
+      "has_receipt": true
+    },
+    {
+      "id": "L3",
+      "category": "ground_transport",
+      "description": "Airport rideshare",
+      "amount": 40.0,
+      "date": "2026-06-10",
+      "vendor": "Uber",
+      "has_receipt": false
+    }
+  ]
+}

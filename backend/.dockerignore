@@ -1,0 +1,11 @@
+.venv
+__pycache__
+*.pyc
+.git
+.gitignore
+.pytest_cache
+.deepeval
+outputs
+.env
+*.md
+docs

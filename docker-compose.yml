@@ -1,0 +1,85 @@
+# Self-hosted stack behind a Cloudflare Tunnel. NO host ports are published — services talk
+# over the compose network and the ONLY public entrypoint is cloudflared.
+#
+#   docker compose up -d
+#
+# Put TUNNEL_TOKEN (+ Azure creds) in backend/.env. Then, in the Cloudflare Zero Trust dashboard,
+# add a Public Hostname for this tunnel pointing at HTTP service "web:80" (serves the UI and
+# proxies /api → api:8000). See README for details.
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./backend/docker/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  langfuse:
+    image: langfuse/langfuse:2
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/langfuse
+      # If you expose Langfuse via the tunnel, set this to the public https URL (else login redirects break).
+      NEXTAUTH_URL: http://localhost:3000
+      NEXTAUTH_SECRET: dev-nextauth-secret-change-me
+      SALT: dev-salt-change-me
+      TELEMETRY_ENABLED: "false"
+      # Headless bootstrap of an org/project + API keys (so the app can trace immediately).
+      LANGFUSE_INIT_ORG_ID: demo-org
+      LANGFUSE_INIT_PROJECT_ID: demo-project
+      LANGFUSE_INIT_PROJECT_PUBLIC_KEY: pk-lf-local-demo
+      LANGFUSE_INIT_PROJECT_SECRET_KEY: sk-lf-local-demo
+      LANGFUSE_INIT_USER_EMAIL: demo@example.com
+      LANGFUSE_INIT_USER_NAME: Demo
+      LANGFUSE_INIT_USER_PASSWORD: demopassword123
+
+  api:
+    build: ./backend
+    # Azure creds (for live mode) come from backend/.env if present; absent => mock mode.
+    env_file:
+      - path: ./backend/.env
+        required: false
+    depends_on:
+      postgres:
+        condition: service_healthy
+      langfuse:
+        condition: service_started
+    environment:
+      # Infra wiring for the container network (overrides backend/.env).
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/checkpointer?sslmode=disable
+      LANGGRAPH_STRICT_MSGPACK: "true"
+      LANGFUSE_HOST: http://langfuse:3000
+      LANGFUSE_PUBLIC_KEY: pk-lf-local-demo
+      LANGFUSE_SECRET_KEY: sk-lf-local-demo
+      CORS_ORIGINS: "http://localhost:5173,http://localhost:8081"
+
+  web:
+    build: ./frontend
+    depends_on:
+      - api
+    # nginx serves the built UI and proxies /api → api:8000. Reachable in-network as web:80.
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    # Reads TUNNEL_TOKEN from backend/.env. No host ports; routes are set in the Cloudflare dashboard.
+    env_file:
+      - path: ./backend/.env
+        required: false
+    depends_on:
+      - web
+      - langfuse
+
+volumes:
+  pgdata:

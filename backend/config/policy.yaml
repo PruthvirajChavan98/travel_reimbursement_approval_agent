@@ -1,0 +1,65 @@
+# Travel & Expense reimbursement policy — AUTHORITATIVE source for every number.
+# Reference values seeded from public standards (GSA FY2026, IRS 2026) but fully
+# config-driven and dated; update here, never hardcode in code. All amounts USD.
+version: "2026-06-29"
+currency: USD
+
+per_diem:
+  lodging:
+    rule_id: POL-LODGING
+    daily_cap: 110          # GSA FY2026 standard CONUS lodging, USD/night
+    locality_overrides:     # higher caps for high-cost destinations, USD/night
+      New York: 300
+      San Francisco: 270
+      Washington: 250
+  meals:                    # Meals & Incidental Expenses (M&IE)
+    rule_id: POL-MEALS
+    daily_cap: 68           # GSA FY2026 standard M&IE, USD/day
+
+category_limits:            # flat per-line caps for non-per-diem categories, USD
+  airfare:
+    rule_id: POL-AIRFARE
+    cap: 1500
+  ground_transport:
+    rule_id: POL-GROUND
+    cap: 200
+  other:
+    rule_id: POL-OTHER
+    cap: 100
+
+mileage:
+  rule_id: POL-MILEAGE
+  rate_per_mile: 0.725      # IRS 2026 business standard mileage rate, USD/mile
+
+non_reimbursable:
+  rule_id: POL-NONREIMB
+  categories: [personal]    # always rejected (cap 0)
+
+receipts:
+  rule_id: POL-RECEIPT
+  required_above: 75        # line items strictly above this require a receipt, USD
+
+approval_matrix:
+  rule_id: POL-APPROVAL
+  # First tier whose max_amount >= claim total applies. auto_approve=false means a
+  # human approver at approver_role must sign off -> routed to Manual Review.
+  tiers:
+    - max_amount: 2500
+      approver_role: manager
+      auto_approve: true
+    - max_amount: 10000
+      approver_role: director
+      auto_approve: false
+    - max_amount: null      # above the last numeric tier
+      approver_role: vp
+      auto_approve: false
+
+duplicates:
+  rule_id: POL-DUPLICATE
+  amount_tolerance: 0.01    # |a - b| <= tolerance counts as the same amount, USD
+  date_window_days: 1       # same/adjacent date counts as a possible duplicate
+
+thresholds:
+  rule_id: POL-CONFIDENCE
+  manual_review_confidence: 0.6   # final confidence below this -> Manual Review
+  reject_floor: 0.0               # approved amount <= this -> Reject

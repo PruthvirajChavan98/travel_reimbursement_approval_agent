@@ -1,0 +1,21 @@
+{
+  "claim_id": "CLM-2026-0003",
+  "employee_id": "E-3003",
+  "employee_role": "employee",
+  "trip_purpose": "Reimbursement for evening out during business trip",
+  "destination": "Chicago",
+  "start_date": "2026-06-14",
+  "end_date": "2026-06-15",
+  "currency": "USD",
+  "line_items": [
+    {
+      "id": "L1",
+      "category": "personal",
+      "description": "Hotel minibar and personal entertainment",
+      "amount": 90.0,
+      "date": "2026-06-14",
+      "vendor": "Hotel Bar",
+      "has_receipt": true
+    }
+  ]
+}

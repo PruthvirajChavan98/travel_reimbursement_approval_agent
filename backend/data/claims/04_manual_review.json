@@ -1,0 +1,31 @@
+{
+  "claim_id": "CLM-2026-0004",
+  "employee_id": "E-3004",
+  "employee_role": "employee",
+  "trip_purpose": "Vendor negotiation trip",
+  "destination": "Seattle",
+  "start_date": "2026-06-15",
+  "end_date": "2026-06-17",
+  "currency": "USD",
+  "line_items": [
+    {
+      "id": "L1",
+      "category": "airfare",
+      "description": "Round-trip flight (receipt not attached)",
+      "amount": 450.0,
+      "date": "2026-06-15",
+      "vendor": "United Airlines",
+      "has_receipt": false
+    },
+    {
+      "id": "L2",
+      "category": "meals",
+      "description": "Meals for 2 days",
+      "amount": 120.0,
+      "date": "2026-06-15",
+      "vendor": "Various",
+      "quantity": 2,
+      "has_receipt": true
+    }
+  ]
+}

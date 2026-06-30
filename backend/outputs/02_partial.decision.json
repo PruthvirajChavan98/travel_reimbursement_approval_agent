@@ -1,0 +1,81 @@
+{
+  "decision": {
+    "decision": "PARTIAL_APPROVE",
+    "claimed_amount": 420.0,
+    "approved_amount": 340.0,
+    "rejected_amount": 80.0,
+    "deductions": [
+      {
+        "line_item_id": "L1",
+        "amount": 80.0,
+        "reason": "lodging over cap (110/night x 2.0 night(s))",
+        "policy_ref": "POL-LODGING"
+      }
+    ],
+    "missing_documents": [],
+    "policy_references": [
+      "POL-APPROVAL",
+      "POL-LODGING",
+      "POL-MEALS"
+    ],
+    "confidence": 1.0,
+    "explanation": "Approved $340.00 of $420.00; $80.00 deducted for policy overages: L1 -$80.00 (lodging over cap (110/night x 2.0 night(s))).",
+    "manual_review_reasons": []
+  },
+  "trace": {
+    "mode": "mock",
+    "steps": [
+      {
+        "kind": "tool_call",
+        "summary": "Gathered deterministic facts (policy lookup, caps, receipts, duplicates, approval tier)",
+        "detail": {
+          "policy_references": [
+            "POL-APPROVAL",
+            "POL-LODGING",
+            "POL-MEALS"
+          ],
+          "line_checks": [
+            {
+              "line_item_id": "L1",
+              "category": "lodging",
+              "claimed": 300.0,
+              "cap": 220.0,
+              "allowed": 220.0,
+              "deduction": 80.0,
+              "rule_id": "POL-LODGING",
+              "note": "110/night x 2.0 night(s)"
+            },
+            {
+              "line_item_id": "L2",
+              "category": "meals",
+              "claimed": 120.0,
+              "cap": 136.0,
+              "allowed": 120.0,
+              "deduction": 0.0,
+              "rule_id": "POL-MEALS",
+              "note": "68/day x 2.0 day(s)"
+            }
+          ],
+          "missing_documents": [],
+          "duplicate_flags": [],
+          "approval": {
+            "required_role": "manager",
+            "auto_approve": true
+          },
+          "claimed_total": 420.0,
+          "allowed_total": 340.0
+        }
+      },
+      {
+        "kind": "guardrail",
+        "summary": "Deterministic decision: PARTIAL_APPROVE",
+        "detail": {
+          "approved_amount": 340.0,
+          "rejected_amount": 80.0,
+          "confidence": 1.0,
+          "manual_review_reasons": []
+        }
+      }
+    ]
+  }
+}

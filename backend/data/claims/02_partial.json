@@ -1,0 +1,33 @@
+{
+  "claim_id": "CLM-2026-0002",
+  "employee_id": "E-3002",
+  "employee_role": "employee",
+  "trip_purpose": "Industry conference attendance",
+  "destination": "Denver",
+  "start_date": "2026-06-12",
+  "end_date": "2026-06-14",
+  "currency": "USD",
+  "line_items": [
+    {
+      "id": "L1",
+      "category": "lodging",
+      "description": "2 nights at Grand Hotel Denver ($150/night)",
+      "amount": 300.0,
+      "date": "2026-06-12",
+      "vendor": "Grand Hotel Denver",
+      "location": "Denver",
+      "quantity": 2,
+      "has_receipt": true
+    },
+    {
+      "id": "L2",
+      "category": "meals",
+      "description": "Meals for 2 days",
+      "amount": 120.0,
+      "date": "2026-06-12",
+      "vendor": "Various",
+      "quantity": 2,
+      "has_receipt": true
+    }
+  ]
+}

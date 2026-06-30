@@ -1,0 +1,69 @@
+{
+  "decision": {
+    "decision": "REJECT",
+    "claimed_amount": 90.0,
+    "approved_amount": 0.0,
+    "rejected_amount": 90.0,
+    "deductions": [
+      {
+        "line_item_id": "L1",
+        "amount": 90.0,
+        "reason": "personal over cap (non-reimbursable expense)",
+        "policy_ref": "POL-NONREIMB"
+      }
+    ],
+    "missing_documents": [],
+    "policy_references": [
+      "POL-APPROVAL",
+      "POL-NONREIMB"
+    ],
+    "confidence": 1.0,
+    "explanation": "Rejected: approved amount is $0.00 after applying policy (claimed $90.00).",
+    "manual_review_reasons": []
+  },
+  "trace": {
+    "mode": "mock",
+    "steps": [
+      {
+        "kind": "tool_call",
+        "summary": "Gathered deterministic facts (policy lookup, caps, receipts, duplicates, approval tier)",
+        "detail": {
+          "policy_references": [
+            "POL-APPROVAL",
+            "POL-NONREIMB"
+          ],
+          "line_checks": [
+            {
+              "line_item_id": "L1",
+              "category": "personal",
+              "claimed": 90.0,
+              "cap": 0.0,
+              "allowed": 0.0,
+              "deduction": 90.0,
+              "rule_id": "POL-NONREIMB",
+              "note": "non-reimbursable expense"
+            }
+          ],
+          "missing_documents": [],
+          "duplicate_flags": [],
+          "approval": {
+            "required_role": "manager",
+            "auto_approve": true
+          },
+          "claimed_total": 90.0,
+          "allowed_total": 0.0
+        }
+      },
+      {
+        "kind": "guardrail",
+        "summary": "Deterministic decision: REJECT",
+        "detail": {
+          "approved_amount": 0.0,
+          "rejected_amount": 90.0,
+          "confidence": 1.0,
+          "manual_review_reasons": []
+        }
+      }
+    ]
+  }
+}

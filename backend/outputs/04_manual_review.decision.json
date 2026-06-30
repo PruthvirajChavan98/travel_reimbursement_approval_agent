@@ -1,0 +1,84 @@
+{
+  "decision": {
+    "decision": "MANUAL_REVIEW",
+    "claimed_amount": 570.0,
+    "approved_amount": 570.0,
+    "rejected_amount": 0.0,
+    "deductions": [],
+    "missing_documents": [
+      "L1 (airfare): receipt required for $450.0 (>75) [POL-RECEIPT]"
+    ],
+    "policy_references": [
+      "POL-AIRFARE",
+      "POL-APPROVAL",
+      "POL-MEALS",
+      "POL-RECEIPT"
+    ],
+    "confidence": 0.6,
+    "explanation": "Routed to manual review: Missing required receipt(s): L1 (airfare): receipt required for $450.0 (>75) [POL-RECEIPT]",
+    "manual_review_reasons": [
+      "Missing required receipt(s): L1 (airfare): receipt required for $450.0 (>75) [POL-RECEIPT]"
+    ]
+  },
+  "trace": {
+    "mode": "mock",
+    "steps": [
+      {
+        "kind": "tool_call",
+        "summary": "Gathered deterministic facts (policy lookup, caps, receipts, duplicates, approval tier)",
+        "detail": {
+          "policy_references": [
+            "POL-AIRFARE",
+            "POL-APPROVAL",
+            "POL-MEALS",
+            "POL-RECEIPT"
+          ],
+          "line_checks": [
+            {
+              "line_item_id": "L1",
+              "category": "airfare",
+              "claimed": 450.0,
+              "cap": 1500.0,
+              "allowed": 450.0,
+              "deduction": 0.0,
+              "rule_id": "POL-AIRFARE",
+              "note": "flat category cap"
+            },
+            {
+              "line_item_id": "L2",
+              "category": "meals",
+              "claimed": 120.0,
+              "cap": 136.0,
+              "allowed": 120.0,
+              "deduction": 0.0,
+              "rule_id": "POL-MEALS",
+              "note": "68/day x 2.0 day(s)"
+            }
+          ],
+          "missing_documents": [
+            "L1 (airfare): receipt required for $450.0 (>75) [POL-RECEIPT]"
+          ],
+          "duplicate_flags": [],
+          "approval": {
+            "required_role": "manager",
+            "auto_approve": true
+          },
+          "claimed_total": 570.0,
+          "allowed_total": 570.0
+        }
+      },
+      {
+        "kind": "guardrail",
+        "summary": "Deterministic decision: MANUAL_REVIEW",
+        "detail": {
+          "approved_amount": 570.0,
+          "rejected_amount": 0.0,
+          "confidence": 0.6,
+          "manual_review_reasons": [
+            "Missing required receipt(s): L1 (airfare): receipt required for $450.0 (>75) [POL-RECEIPT]"
+          ]
+        }
+      }
+    ]
+  }
+}
